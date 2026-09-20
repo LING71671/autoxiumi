@@ -1,0 +1,23 @@
+{
+  "type": "paper",
+  "title": "autoxiumi 结构样例",
+  "blocks": [
+    { "h1": "结构与写作" },
+    { "p": "这份 spec 用 JSON 直接描述页面，字段名与 block 类型一一对应。" },
+
+    { "divider": true },
+
+    { "h2": "媒体与布局" },
+    { "img": { "src": "//statics.xiumi.us/stc/images/placeholder-img.jpg", "alt": "占位图", "width": 80 } },
+    { "quote": "两栏布局用 cols，元素是字符串就按文本处理，是 http 链接就按图片处理。" },
+    { "cols": ["左栏文字", "//statics.xiumi.us/stc/images/placeholder-img.jpg"] },
+
+    { "list": ["列表项一", "列表项二"], "ordered": false },
+
+    { "page": true },
+
+    { "h2": "第二页" },
+    { "p": "page:true 就是分页。分页后 autoxiumi 会自动补一份背景层（pages 与 grounds 必须等长）。" },
+    { "html": "<p style=\"text-align:center;color:#c00\">需要精细控制样式时，用 html 字段直接给 HTML。</p>" }
+  ]
+}

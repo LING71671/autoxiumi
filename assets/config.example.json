@@ -1,0 +1,6 @@
+{
+  "_comment": "autoxiumi 可选配置。放到下列任一位置即自动生效：$XIUMI_CONFIG、<cwd>/autoxiumi.config.json、<skill>/config.json、<平台配置根>/autoxiumi/config.json。全部字段可省略——省略就交给自动发现。相对路径按本文件所在目录解析。",
+  "client": "../xiumi-api/client/xiumi.mjs",
+  "session": "../xiumi-api/capture/client-session.json",
+  "cache": null
+}

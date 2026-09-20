@@ -1,0 +1,17 @@
+# 统一行尾，避免跨平台 diff 噪音
+* text=auto eol=lf
+
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.webp  binary
+*.ico   binary
+*.woff2 binary
+*.ttf   binary
+
+*.mjs  text
+*.js   text
+*.md   text
+*.json text
+*.yml  text

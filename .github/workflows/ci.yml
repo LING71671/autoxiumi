@@ -1,0 +1,27 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 脚本必须零依赖（playwright 可选、按需动态加载），
+      # 所以不装 node_modules，只做语法校验。
+      - name: Syntax check
+        run: |
+          for f in $(find scripts -name '*.mjs'); do
+            node --check "$f"
+          done
+
+      - name: Check example assets parse
+        run: node -e "JSON.parse(require('fs').readFileSync('assets/config.example.json','utf8')); JSON.parse(require('fs').readFileSync('assets/examples/article.example.json','utf8')); console.log('ok')"

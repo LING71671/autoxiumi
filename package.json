@@ -1,0 +1,40 @@
+{
+  "name": "autoxiumi",
+  "version": "1.0.0",
+  "description": "秀米图文创作自动化 skill —— Markdown/JSON 变成真实图文作品，并验证渲染",
+  "type": "module",
+  "license": "Apache-2.0",
+  "author": "LING71671",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LING71671/autoxiumi.git"
+  },
+  "homepage": "https://github.com/LING71671/autoxiumi#readme",
+  "bugs": {
+    "url": "https://github.com/LING71671/autoxiumi/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "autoxiumi": "./scripts/create.mjs"
+  },
+  "scripts": {
+    "doctor": "node scripts/doctor.mjs"
+  },
+  "peerDependencies": {
+    "playwright-core": ">=1.40"
+  },
+  "peerDependenciesMeta": {
+    "playwright-core": {
+      "optional": true
+    }
+  },
+  "keywords": [
+    "xiumi",
+    "秀米",
+    "skill",
+    "content-automation",
+    "markdown"
+  ]
+}

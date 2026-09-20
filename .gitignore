@@ -1,0 +1,23 @@
+# —— 本地配置与会话（含路径与凭据，绝不可提交）
+config.json
+autoxiumi.config.json
+*.local.json
+session.json
+.env
+.env.*
+
+# —— 运行产物
+cache/
+*.log
+
+# —— 依赖
+node_modules/
+__pycache__/
+*.pyc
+
+# —— 编辑器与系统垃圾
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
