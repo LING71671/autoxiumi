@@ -18,6 +18,10 @@ agent_created: true
 
 需要一个已登录的会话，以及 **xiumi-api 客户端**（`client/xiumi.mjs`，零依赖）。
 
+还没装的话跑 `node scripts/install.mjs` —— 它会把这套 skill 装到 skill 目录，
+并把客户端两个文件（`xiumi.mjs` + `lz-string.mjs`）放到同级 `xiumi-api/client/`。
+离线环境用 `--local <已 clone 的 xiumi-api 路径>`。装完再回到本节。
+
 两者都用分层解析，**不假设任何固定位置**：
 
 ```

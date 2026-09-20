@@ -1,6 +1,6 @@
 {
   "name": "autoxiumi",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "秀米图文创作自动化 skill —— Markdown/JSON 变成真实图文作品，并验证渲染",
   "type": "module",
   "license": "Apache-2.0",
@@ -20,7 +20,8 @@
     "autoxiumi": "./scripts/create.mjs"
   },
   "scripts": {
-    "doctor": "node scripts/doctor.mjs"
+    "doctor": "node scripts/doctor.mjs",
+    "install": "node scripts/install.mjs"
   },
   "peerDependencies": {
     "playwright-core": ">=1.40"

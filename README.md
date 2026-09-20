@@ -10,6 +10,7 @@
 autoxiumi/
 ├── SKILL.md                     Agent 入口（规范要求的唯一必需文件）
 ├── scripts/
+│   ├── install.mjs              一键安装
 │   ├── create.mjs               创作 CLI
 │   ├── verify-render.mjs        浏览器渲染验证
 │   ├── doctor.mjs               环境自检
@@ -25,15 +26,56 @@ autoxiumi/
 
 ## 安装
 
-无需构建、无需 `npm install`。把整个目录复制或链接到 skill 目录即可：
+无需构建、无需 `npm install`、无需 clone 整个 xiumi-api。
+
+### 一键安装
+
+```bash
+git clone --depth 1 https://github.com/LING71671/autoxiumi.git
+node autoxiumi/scripts/install.mjs
+```
+
+它会装到 `~/.workbuddy/skills/autoxiumi`，并把客户端两个文件放到同级的
+`xiumi-api/client/`，最后跑一次自检。常用选项：
+
+| 选项 | 用途 |
+|---|---|
+| `--dir <目录>` | 装到别处（项目级安装：`<repo>/.workbuddy/skills/autoxiumi`） |
+| `--local <路径>` | 从本地已有的 xiumi-api 仓库取客户端（离线可用） |
+| `--dry` | 只打印计划不落盘 |
+| `--force` | 重新取客户端（忽略已存在的） |
+
+重复运行是安全的：客户端已存在就跳过，你自己写的 `config.json` 不会被触碰。
+
+### 让 AI 帮你装
+
+不想手敲命令，把下面这段整段发给 AI 助手（WorkBuddy / Claude Code / Cursor 等）：
+
+> 请帮我在本机安装 autoxiumi skill：
+>
+> 1. 把 `https://github.com/LING71671/autoxiumi` 克隆到临时目录
+> 2. 运行 `node <临时目录>/scripts/install.mjs`
+> 3. 把自检输出贴给我，确认里面有「API 客户端 ✓」
+> 4. 装完删掉临时目录
+> 5. 除 `~/.workbuddy/skills/autoxiumi` 与 `~/.workbuddy/skills/xiumi-api` 外，
+>    不要改动我机器上的其它文件
+>
+> 如果这台机器连不上 GitHub，就先 `git clone https://github.com/LING71671/xiumi-api`，
+> 再跑 `node <临时目录>/scripts/install.mjs --local <xiumi-api 路径>`。
+
+### 手动安装
+
+把整个目录复制到 skill 目录即可：
 
 ```
 <用户级> ~/.workbuddy/skills/autoxiumi/
 <项目级> <repo>/.workbuddy/skills/autoxiumi/
 ```
 
-唯一的运行时依赖是 [**xiumi-api**](https://github.com/LING71671/xiumi-api) 客户端
-（`client/xiumi.mjs`，零依赖，Node 18+）。`playwright-core` 只被 `verify-render.mjs` 用到，属可选依赖。
+唯一的运行时依赖是 [**xiumi-api**](https://github.com/LING71671/xiumi-api) 客户端 ——
+实际只需要其中 `client/xiumi.mjs` 与 `client/lz-string.mjs` **两个文件**（合计约 100 KB，
+零依赖，Node 18+）。放到 skill 同级的 `xiumi-api/client/` 即可被自动发现。
+`playwright-core` 只被 `verify-render.mjs` 用到，属可选依赖。
 
 ## 配置
 

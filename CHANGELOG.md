@@ -2,6 +2,19 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.0] - 2026-09-21
+
+### 新增
+
+- `scripts/install.mjs` —— 一键安装：装到 skill 目录、把客户端两个文件放到同级、
+  跑自检。支持 `--dir` / `--local`（离线）/ `--dry` / `--force`，重复运行安全
+- README 增加「一键安装」「让 AI 帮你装」「手动安装」三节
+
+### 变更
+
+- 明确运行时依赖的实际体量：只需要 `xiumi-api` 的 `client/xiumi.mjs` 与
+  `client/lz-string.mjs` 两个文件（约 100 KB），**不需要 clone 整个仓库**
+
 ## [1.0.0] - 2026-09-20
 
 首次开源发布。
@@ -31,4 +44,5 @@
 - [`xiumi-api`](https://github.com/LING71671/xiumi-api) —— API 客户端（零依赖，必需）
 - `playwright-core` —— 仅渲染验证需要，可选
 
+[1.1.0]: https://github.com/LING71671/autoxiumi/releases/tag/v1.1.0
 [1.0.0]: https://github.com/LING71671/autoxiumi/releases/tag/v1.0.0
