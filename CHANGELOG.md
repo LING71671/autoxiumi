@@ -2,6 +2,30 @@
 
 本项目遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.2.1] - 2026-09-21
+
+### 新增
+
+- `scripts/api.mjs` — **全量接口入口**。`create.mjs` 只覆盖创作链路，但客户端封装的是
+  整个站点接口面；这个脚本把客户端方法原样暴露出来（`list` / `describe` / `call` /
+  `raw` / `me`），打标签、改名、拷贝、删除、恢复、上传素材都能直接调，且仍然只依赖
+  已就位的客户端两个文件，不要求 clone 整个 xiumi-api 仓库
+- 「读 / 写」判定加了一层**传递闭包**：包装器本身不发请求、但调用了写方法
+  （如 `renameShow` → `updateShow`）的，现在会被正确标成「写」，不再误导
+
+### 变更
+
+- 随附的客户端（`client/xiumi.mjs`）刷新到 xiumi-api v1.2.0：本轮端到端实测发现并修掉的
+  一批接口封装错误随之生效 —— `addImageTag` / `deleteImageTag` / `removeImageTag` /
+  `setShowReceiveType` / `setTagsOrder`（`order` 必须是字符串）/ `verifyHtmlCode` /
+  `renameShow` / `forms` / `statisticsShow` / `myGoodsInfo` / `invitation` /
+  `customDomains`，并删除了三个实测不存在的幻影方法（`setMuteLegacy`、
+  `recoverableShows`、`formData`）。已安装的用户重新跑一次
+  `node scripts/install.mjs`（或 `npm run setup`）即可刷新
+- 逐方法的验证状态（有没有跑、通没通、证据是什么）在
+  [xiumi-api 的 `docs/COVERAGE.md`](https://github.com/LING71671/xiumi-api/blob/main/docs/COVERAGE.md)，
+  由脚本生成，本仓库不再重复维护一份
+
 ## [1.2.0] - 2026-09-21
 
 ### 新增

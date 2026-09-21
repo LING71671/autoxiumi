@@ -12,6 +12,7 @@ autoxiumi/
 ├── scripts/
 │   ├── install.mjs              一键安装
 │   ├── create.mjs               创作 CLI
+│   ├── api.mjs                  全量接口入口（任意客户端方法都能调）
 │   ├── verify-render.mjs        浏览器渲染验证
 │   ├── doctor.mjs               环境自检
 │   └── lib/                     config / templates / builder / browser
@@ -110,7 +111,7 @@ node autoxiumi/scripts/install.mjs --project     # 装到当前项目，供团�
 ```
 
 唯一的运行时依赖是 [**xiumi-api**](https://github.com/LING71671/xiumi-api) 客户端 ——
-实际只需要其中 `client/xiumi.mjs` 与 `client/lz-string.mjs` **两个文件**（合计约 100 KB，
+实际只需要其中 `client/xiumi.mjs` 与 `client/lz-string.mjs` **两个文件**（合计约 110 KB，
 零依赖，Node 18+）。放进 skill 的 `client/` 子目录即可被自动发现。
 `playwright-core` 只被 `verify-render.mjs` 用到，属可选依赖。
 
@@ -146,6 +147,23 @@ node scripts/doctor.mjs
 ```
 
 打印客户端、会话、缓存的实际解析结果并逐项判定，不需要登录。加了 `--json` 输出结构化结果。
+
+## 全量接口入口
+
+创作之外，客户端封装的**整个站点接口面**也能直接调（打标签、改标题、拷贝/删除/恢复、
+上传素材、查订单……），不用 clone 整个 xiumi-api 仓库：
+
+```bash
+node scripts/api.mjs list                    # 全部方法，按 读 / 写 分组
+node scripts/api.mjs list --write            # 只看写操作
+node scripts/api.mjs describe renameShow     # 签名 + 说明 + 风险提示
+node scripts/api.mjs call listShows '{"type":"paper","limit":5}'
+node scripts/api.mjs call deleteShow 123456  # 位置参数按 JSON 解析，失败当字符串
+node scripts/api.mjs raw GET /api/sys_info   # 任意接口逃生口
+```
+
+「读 / 写」是源码静态推断的**提示**，不做拦截；逐方法的验证状态（跑没跑通、有没有回读证据）
+在 xiumi-api 的 [`docs/COVERAGE.md`](https://github.com/LING71671/xiumi-api/blob/main/docs/COVERAGE.md)。
 
 ## 验证过的能力
 

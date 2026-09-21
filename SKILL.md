@@ -57,9 +57,17 @@ node scripts/create.mjs <spec> --update <show_id>
 
 # 另一种作品类型
 node scripts/create.mjs <spec> --type booklet
+
+# 创作之外，任意客户端方法都能调（打标签 / 改名 / 拷贝 / 删除 / 恢复 / 上传素材…）
+node scripts/api.mjs list                      # 全部方法，按 读 / 写 分组
+node scripts/api.mjs describe renameShow       # 签名 + 说明 + 风险提示
+node scripts/api.mjs call renameShow <show_id> "新标题"
+node scripts/api.mjs raw GET /api/sys_info     # 任意接口逃生口
 ```
 
 `--help` 列出全部选项。成功后打印 `show_id` 与编辑器链接。
+「读 / 写」是源码静态推断的**提示**，不做拦截；逐方法的验证状态在
+xiumi-api 仓库的 `docs/COVERAGE.md`。
 
 ## 输入格式
 
@@ -120,7 +128,8 @@ node scripts/verify-render.mjs <show_id> <标记串>
 - `scripts/lib/builder.mjs` — blocks → showData，含 `markdownToBlocks`
 - `scripts/lib/browser.mjs` — playwright 动态解析（可选依赖）
 - `scripts/install.mjs` — 安装到各 harness 技能目录；harness 路径表在文件顶部的 `HARNESSES`
-- `scripts/create.mjs` — CLI 入口
+- `scripts/create.mjs` — 创作 CLI 入口
+- `scripts/api.mjs` — 全量接口入口（客户端的任意方法都能调，读 / 写只做提示）
 - `scripts/verify-render.mjs` — 渲染验证
 - `scripts/doctor.mjs` — 环境自检
 - `references/blocks.md` — 输入格式与组件映射
