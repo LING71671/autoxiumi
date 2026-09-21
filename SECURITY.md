@@ -9,8 +9,9 @@
 ### 凭据
 
 - 账号密码只从环境变量（`XIUMI_USER` / `XIUMI_PASS`）读取
-- 会话文件路径由 `scripts/lib/config.mjs` 解析，通常指向 xiumi-api 仓库的 `capture/` 下，
-  内含有效 `sid`，等价于登录态
+- 会话文件路径由 `scripts/lib/config.mjs` 解析：默认落在平台配置根（Windows `%APPDATA%`、
+  其它平台 `$XDG_CONFIG_HOME` 或 `~/.config`）下的 `autoxiumi/session.json`，内含有效 `sid`，
+  等价于登录态；在 xiumi-api 仓库里开发时会优先复用该仓库 `capture/` 下的现成会话
 - **提交前请确认没有被 git 跟踪的本地配置**：`config.json` / `autoxiumi.config.json` /
   `*.local.json` 已在 `.gitignore` 中
 

@@ -21,7 +21,7 @@
   },
   "scripts": {
     "doctor": "node scripts/doctor.mjs",
-    "install": "node scripts/install.mjs"
+    "setup": "node scripts/install.mjs"
   },
   "peerDependencies": {
     "playwright-core": ">=1.40"

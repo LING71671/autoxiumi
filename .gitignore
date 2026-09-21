@@ -9,6 +9,8 @@ session.json
 # —— 运行产物
 cache/
 *.log
+# 安装器把客户端放在这里；在仓库里直接跑 --dir . 时会出现
+client/
 
 # —— 依赖
 node_modules/

@@ -113,16 +113,19 @@ const CLIENT_REL = [
 
 /**
  * 解析 API 客户端文件位置。
- * 顺序：--client → $XIUMI_CLIENT → config.client → 自动发现（cwd 与 skill 上级各自向上找）
+ * 顺序：--client → $XIUMI_CLIENT → config.client → 自动发现（cwd / skill 自身及其上级各自向上找）
+ *
+ * skill 自身也在遍历起点里，所以安装器把客户端放在 `<skill>/client/` 时（自包含安装）
+ * 无需任何配置即可命中。
  * @returns {string} 绝对路径
  */
 export function resolveClient({ explicit, config = {} } = {}) {
   const direct = [explicit, process.env.XIUMI_CLIENT, config.client].find((p) => isFile(p));
   if (direct) return path.resolve(direct);
 
-  // 自动发现：从 cwd 和 skill 的上级目录分别向上遍历
+  // 自动发现：cwd、skill 自身、skill 的上级，各自向上遍历
   const tried = new Set();
-  for (const start of [process.cwd(), path.resolve(SKILL_DIR, '..')]) {
+  for (const start of [process.cwd(), SKILL_DIR, path.resolve(SKILL_DIR, '..')]) {
     for (const dir of ancestors(start)) {
       for (const rel of CLIENT_REL) {
         const p = path.join(dir, rel);
@@ -150,13 +153,17 @@ export function resolveClient({ explicit, config = {} } = {}) {
 
 /**
  * 解析会话文件位置（不必存在，会在首次登录后写入）。
- * 顺序：--session → $XIUMI_SESSION → config.session → 客户端仓库内的 capture/ → cwd 向上 → 平台配置根
+ * 顺序：--session → $XIUMI_SESSION → config.session → 客户端仓库内的 capture/ → cwd 向上
+ *
+ * 都没命中时**写到平台配置根**（而不是 skill 目录）：同一个 skill 可能被装进多个
+ * harness 的技能目录，会话放这里才能共用一份；也避免往可能只读的安装目录里写运行数据。
  * @returns {string} 绝对路径（即便当前不存在）
  */
 export function resolveSession({ explicit, config = {}, client } = {}) {
   const direct = explicit || process.env.XIUMI_SESSION || config.session;
   if (direct) return path.resolve(direct);
 
+  const shared = path.join(configRoot(), SKILL_NAME, 'session.json');
   const cands = [];
   if (client) {
     const repo = path.dirname(path.dirname(path.resolve(client)));
@@ -167,9 +174,8 @@ export function resolveSession({ explicit, config = {}, client } = {}) {
     cands.push(path.join(dir, 'capture', 'client-session.json'));
     cands.push(path.join(dir, 'client-session.json'));
   }
-  cands.push(path.join(configRoot(), 'autoxiumi', 'session.json'));
 
-  return cands.find(isFile) || cands[0];
+  return cands.find(isFile) || shared;
 }
 
 /**

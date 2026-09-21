@@ -18,9 +18,10 @@ agent_created: true
 
 需要一个已登录的会话，以及 **xiumi-api 客户端**（`client/xiumi.mjs`，零依赖）。
 
-还没装的话跑 `node scripts/install.mjs` —— 它会把这套 skill 装到 skill 目录，
-并把客户端两个文件（`xiumi.mjs` + `lz-string.mjs`）放到同级 `xiumi-api/client/`。
-离线环境用 `--local <已 clone 的 xiumi-api 路径>`。装完再回到本节。
+还没装的话跑 `node scripts/install.mjs` —— 它会探测本机装了哪些 AI harness，把 skill 装进
+各自的技能目录，每个安装点自带一份客户端（`client/xiumi.mjs` + `client/lz-string.mjs`）。
+先看探测结果加 `--list`，指定位置用 `--dir <目录>`，离线用 `--local <已 clone 的 xiumi-api 路径>`。
+装完再回到本节。
 
 两者都用分层解析，**不假设任何固定位置**：
 
@@ -118,6 +119,7 @@ node scripts/verify-render.mjs <show_id> <标记串>
 - `scripts/lib/templates.mjs` — 组件取用层 + 磁盘缓存 + `TPL` 语义名表
 - `scripts/lib/builder.mjs` — blocks → showData，含 `markdownToBlocks`
 - `scripts/lib/browser.mjs` — playwright 动态解析（可选依赖）
+- `scripts/install.mjs` — 安装到各 harness 技能目录；harness 路径表在文件顶部的 `HARNESSES`
 - `scripts/create.mjs` — CLI 入口
 - `scripts/verify-render.mjs` — 渲染验证
 - `scripts/doctor.mjs` — 环境自检
